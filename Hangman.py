@@ -88,15 +88,15 @@ def main():
 
     won_the_game = False
     tries_left = MAX_TRIES
-    letters_guessed_by_the_user = [] #todo: change to set
+    letters_guessed_by_the_user = set()
 
     while tries_left > 0 and "_" in hidden_word: # todo: change the condition to flag
         print(random_word)
-        print(f"the letters you already enter: {set(letters_guessed_by_the_user)}") if letters_guessed_by_the_user else ""
+        print(f"the letters you already enter: {letters_guessed_by_the_user}") if letters_guessed_by_the_user else None
         print(f"tries left: {tries_left}")
         print_the_word(hidden_word)
         user_guess = get_user_guess()
-        letters_guessed_by_the_user.append(user_guess)
+        letters_guessed_by_the_user.add(user_guess)
 
         if user_guess in random_word:
             hidden_word = reveal_correct_letters(random_word, hidden_word, user_guess)
