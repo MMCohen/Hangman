@@ -12,18 +12,18 @@ def get_random_word() -> str:
     return random.choice(lst_of_words)
 
 
-def hide_the_word(char_lst: list[str]) -> list[str]:
+def hide_the_word(char_lst: str) -> list[str]:
     """
     converts the letters into "_".
-    ex. ['e', 'x'] -> ['_', '_']
+    ex. "ex" -> ['_', '_']
     :param char_lst:
     :return: list[str]
     """
     return ["_" for _ in char_lst]
 
 
-def convert_word_to_lst(word: str) -> list[str]:
-    return list(word)
+# def convert_word_to_lst(word: str) -> list[str]:
+#     return list(word)
 
 
 def get_user_guess() -> str:
@@ -53,7 +53,7 @@ def print_the_word(hidden_word: list) -> None:
     :param hidden_word:
     :return: None
     """
-    print(f"your hangman word is: {"".join(hidden_word)}")
+    print(f"your hangman word is: {" ".join(hidden_word)}")
     return None
 
 
@@ -79,20 +79,19 @@ def is_won(random_word, hidden_word) -> bool:
     :param hidden_word:
     :return: True / False
     """
-    return random_word == hidden_word
+    return random_word == hidden_word #todo:=============================
 
 
 def main():
     random_word = get_random_word()
-    random_word = convert_word_to_lst(random_word)
     hidden_word = hide_the_word(random_word)
 
     won_the_game = False
     tries_left = MAX_TRIES
-    letters_guessed_by_the_user = []
+    letters_guessed_by_the_user = [] #todo: change to set
 
-    while tries_left > 0 and "_" in hidden_word:
-
+    while tries_left > 0 and "_" in hidden_word: # todo: change the condition to flag
+        print(random_word)
         print(f"the letters you already enter: {set(letters_guessed_by_the_user)}") if letters_guessed_by_the_user else ""
         print(f"tries left: {tries_left}")
         print_the_word(hidden_word)
