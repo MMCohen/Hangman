@@ -1,9 +1,8 @@
 import random
+from hangman_words import WORDS
 
 MAX_TRIES = 8
-lst_of_words = []
-letters_guessed_by_the_user = []
-
+lst_of_words = WORDS
 
 def get_random_word() -> str:
     """
@@ -20,7 +19,7 @@ def hide_the_word(char_lst: list[str]) -> list[str]:
     :param char_lst:
     :return: list[str]
     """
-    return ["_" for char in char_lst]
+    return ["_" for _ in char_lst]
 
 
 def convert_word_to_lst(word: str) -> list[str]:
@@ -31,12 +30,12 @@ def get_user_guess() -> str:
     """
     asks the user for a letter.
     before returning the letter, validate that it is a letter and only one letter with validate_guess func.
-    :return: str
+    :return: one str letter lowercase
     """
     while True:
         user_guess = input("Please enter a letter: ")
         if validate_guess(user_guess):
-            return user_guess
+            return user_guess.lower()
 
 
 def validate_guess(user_guess: str) -> bool:
@@ -54,12 +53,63 @@ def print_the_word(hidden_word: list) -> None:
     :param hidden_word:
     :return: None
     """
-    print(f"your hangman is: {"".join(hidden_word)}")
+    print(f"your hangman word is: {"".join(hidden_word)}")
     return None
 
 
+def reveal_correct_letters(random_word, hidden_word, user_guess) -> list[str]:
+    """
+    reveals the correct letters
+    ex: if the word is ['h','e','l','l','o'] looks like _____ and the player guess 'l' the function will reveal __ll_
+    :param random_word:
+    :param hidden_word:
+    :param user_guess:
+    :return: list
+    """
+    for idx, letter in enumerate(random_word):
+        if user_guess == letter:
+            hidden_word[idx] = letter
+    return hidden_word
+
+
+def is_won(random_word, hidden_word) -> bool:
+    """
+    checks if the player finish to guess the word
+    :param random_word:
+    :param hidden_word:
+    :return: True / False
+    """
+    return random_word == hidden_word
+
+
 def main():
-    pass
+    random_word = get_random_word()
+    random_word = convert_word_to_lst(random_word)
+    hidden_word = hide_the_word(random_word)
+
+    won_the_game = False
+    tries_left = MAX_TRIES
+    letters_guessed_by_the_user = []
+
+    while tries_left > 0 and "_" in hidden_word:
+
+        print(f"the letters you already enter: {set(letters_guessed_by_the_user)}") if letters_guessed_by_the_user else ""
+        print(f"tries left: {tries_left}")
+        print_the_word(hidden_word)
+        user_guess = get_user_guess()
+        letters_guessed_by_the_user.append(user_guess)
+
+        if user_guess in random_word:
+            hidden_word = reveal_correct_letters(random_word, hidden_word, user_guess)
+            won_the_game = is_won(random_word, hidden_word)
+        else:
+            tries_left -= 1
+
+    if won_the_game:
+        print("well done!")
+    else:
+        print(f"the word was: {random_word}")
+        print("next time...")
 
 
 if __name__ == '__main__':
