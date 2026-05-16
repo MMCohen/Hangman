@@ -79,7 +79,7 @@ def is_won(random_word, hidden_word) -> bool:
     :param hidden_word:
     :return: True / False
     """
-    return random_word == hidden_word #todo:=============================
+    return not "_" in hidden_word
 
 
 def main():
@@ -90,7 +90,7 @@ def main():
     tries_left = MAX_TRIES
     letters_guessed_by_the_user = set()
 
-    while tries_left > 0 and "_" in hidden_word: # todo: change the condition to flag
+    while tries_left > 0 and not won_the_game:
         print(random_word)
         print(f"the letters you already enter: {letters_guessed_by_the_user}") if letters_guessed_by_the_user else None
         print(f"tries left: {tries_left}")
