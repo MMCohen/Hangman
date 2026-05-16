@@ -44,6 +44,11 @@ def validate_guess(user_guess: str) -> bool:
     :param user_guess:
     :return: True / False
     """
+    if not user_guess.isalpha():
+        print("Please enter only letters")
+    if not len(user_guess) == 1:
+        print("Please enter only one letter")
+        
     return user_guess.isalpha() and len(user_guess) == 1
 
 
